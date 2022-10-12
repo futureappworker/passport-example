@@ -1,18 +1,19 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
 const passport = require('passport');
 
+const router = express.Router();
+
 router.get('/google', passport.authenticate('google', {
-  scope: [ 'email', 'profile' ],
+  scope: ['email', 'profile'],
 }));
 
 router.get('/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
   res.send({
     status: true,
     data: {
-      user: req.user
-    }
-  })
-})
+      user: req.user,
+    },
+  });
+});
 
-module.exports = router
+module.exports = router;

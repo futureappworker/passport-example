@@ -1,12 +1,16 @@
 const express = require('express');
 const serveStatic = require('serve-static');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 
 const authRouter = require('./routes/auth');
 
 dotenv.config();
 
 const app = express();
+
+// parse application/json
+app.use(bodyParser.json());
 
 require('./strategies/googleStrategy');
 require('./strategies/facebookStrategy');

@@ -16,4 +16,15 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
   });
 });
 
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get('/facebook/callback', passport.authenticate('facebook', { session: false }), (req, res) => {
+  res.send({
+    status: true,
+    data: {
+      user: req.user,
+    },
+  });
+});
+
 module.exports = router;

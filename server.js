@@ -9,6 +9,7 @@ dotenv.config();
 const app = express();
 
 require('./strategies/googleStrategy');
+require('./strategies/facebookStrategy');
 
 const port = 3000;
 

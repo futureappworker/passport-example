@@ -1,8 +1,7 @@
 const User = require('./models/userModel');
 
 const createTestUser = async () => {
-  let user;
-  user = await User.create({
+  await User.create({
     hashedPassword: 'qwerQWER1@',
     profile: {
       email: 'aaa@gmail.com',
@@ -19,8 +18,6 @@ const createTestUser = async () => {
       association: User.Provider,
     }],
   });
-  user = await User.findOneById({ id: user.id });
-  console.log('==== user: ', user.toJSON());
 };
 
 module.exports = {

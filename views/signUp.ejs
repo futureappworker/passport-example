@@ -1,0 +1,52 @@
+<% layout('layout/signLayout') -%>
+
+<div class="card">
+  <h5 class="card-header">
+    <div class="text-center mt-2 mb-3">
+      <a href="/"><img src="https://via.placeholder.com/80x80" alt="home logo"></a>
+    </div>
+    <div class="text-center">Sign up</div>
+  </h5>
+  <div class="card-body">
+    <div class="d-grid gap-2 mx-auto">
+      <a class="social-button" href="/api/auth/google">
+        <span class="social-icon google-icon" ></span>
+        <span>Continue with Google</span>
+      </a>
+      <a class="social-button" href="/api/auth/facebook">
+        <span class="social-icon facebook-icon" ></span>
+        <span>Continue with Facebook</span>
+      </a>
+    </div>
+    <div class="text-center my-3">
+      or
+    </div>
+    <form class="needs-validation" novalidate>
+      <div id="signUpAlertMessage">
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <div class="position-relative">
+          <input class="form-control" id="email" type="email" placeholder="Email" aria-label="email input" required />
+          <div class="invalid-feedback">
+          </div>
+        </div>
+        <div class="position-relative">
+          <input class="form-control" id="password" type="password" placeholder="Password" aria-label="password input" required />
+          <div class="invalid-feedback">
+          </div>
+        </div>
+        <div class="position-relative">
+          <input class="form-control" id="retypePassword" type="password" placeholder="Retype password" aria-label="retype password input" required />
+          <div class="invalid-feedback">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </div>
+    </form>
+    <div class="text-end">
+      Has account ? <a href="/sign-in" class="btn btn-link" role="button">Sign In</a>
+    </div>
+  </div>
+</div>
+
+<% block('script', '<script src="/static/js/signUp.js"></script>') -%>

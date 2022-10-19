@@ -1,0 +1,58 @@
+<% layout('layout/basicLayout') -%>
+
+<h1>Profile</h1>
+
+<% if (profileUser) { %>
+<ul>
+  <li>
+    <div>
+      Is self:
+    </div>
+    <div>
+      <%= isSelf ? 'true' : 'false' %>
+    </div>
+  </li>
+
+  <li>
+    <div>
+      name:
+    </div>
+    <div>
+      <%= profileUser.profile.name %>
+    </div>
+  </li>
+
+  <li>
+    <div>
+      Email:
+    </div>
+    <div>
+      <%= profileUser.profile.email %>
+    </div>
+  </li>
+
+  <li>
+    <div>
+      Email Verified:
+    </div>
+    <div>
+      <%= profileUser.profile.isEmailVerified %>
+    </div>
+  </li>
+
+  <li>
+    <div>
+      Number Of Logon:
+    </div>
+    <div>
+      <%= profileUser.numberOfLogon %>
+    </div>
+  </li>
+</ul>
+<% } %>
+
+<% if (!profileUser) { %>
+<div>
+  Not find user.
+</div>
+<% } %>

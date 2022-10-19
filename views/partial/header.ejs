@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div>
+      <a href="/"><img src="https://via.placeholder.com/80x50" alt="home logo"></a>
+    </div>
+
+    <% if (!user) { %>
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="/sign-in" class="btn btn-link" role="button">Sign In</a>
+        <a href="/sign-up" class="btn btn-link" role="button">Sign Up</a>
+      </div>
+    <% } %>
+
+    <% if (user) { %>
+      <div class="d-flex justify-content-between align-items-center">
+        <% if (user.profile.name) { %>
+          <span>hi, <%= user.profile.name %></span>
+        <% } %>
+        <a href="<%= `/profile/${user.id}` %>" class="btn btn-link" role="button">Profile</a>
+        <form action="/api/auth/logout" method="post">
+          <button type="submit" class="btn btn-link">Logout</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</header>

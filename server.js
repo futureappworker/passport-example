@@ -1,36 +1,23 @@
-const express = require('express');
-const serveStatic = require('serve-static');
 const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
 
-const authRouter = require('./routes/auth');
+const sequelize = require('./db/sequelize');
+const app = require('./app');
+const dbSetup = require('./db/setup');
+
+const relationship = require('./db/relationship');
+
+require('./db');
+
+relationship.setup();
 
 dotenv.config();
 
-const app = express();
-
-// parse application/json
-app.use(bodyParser.json());
-
-require('./strategies/googleStrategy');
-require('./strategies/facebookStrategy');
-
-const port = 3000;
-
-app.use(serveStatic('public', { index: ['index.html'] }));
-
-app.use('/auth', authRouter);
-
-app.get('*', (req, res) => {
-  res.status(404).send('Not Found');
-});
-
-// eslint-disable-next-line
-app.use((err, req, res, next) => {
-  res.status(500).send('Internal Server Error');
-});
-
-app.listen(port, () => {
-  // eslint-disable-next-line
-  console.log(`Example app listening on port ${port}`);
-});
+(async () => {
+  await sequelize.sync();
+  await dbSetup.run();
+  const port = process.env.SERVER_PORT;
+  app.listen(port, () => {
+    // eslint-disable-next-line
+    console.log(`Example app listening on port ${port}`);
+  });
+})();

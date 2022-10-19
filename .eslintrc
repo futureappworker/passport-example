@@ -1,3 +1,15 @@
 {
-  "extends": "airbnb"
+  "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "$": true,
+    "validate": true,
+    "axios": true,
+    "bootstrap": true,
+  },
+  "rules": {
+    "consistent-return": "off"
+  }
 }

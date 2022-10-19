@@ -102,7 +102,7 @@ User.init({
   hashedPassword: {
     type: DataTypes.STRING(60),
     set(value) {
-      const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10);
+      const SALT_ROUNDS = parseInt(process.env.PASSWORD_SALT_ROUNDS, 10);
       const hash = bcrypt.hashSync(value, SALT_ROUNDS);
       this.setDataValue('hashedPassword', hash);
     },

@@ -24,6 +24,7 @@ $ npm run lint
 
 ## 目錄結構 說明
 
+```
 .
 ├── README.md
 ├── app.js                              express.js 入口
@@ -70,3 +71,4 @@ $ npm run lint
     ├── profile.ejs
     ├── signIn.ejs
     └── signUp.ejs
+```

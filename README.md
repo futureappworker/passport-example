@@ -12,6 +12,28 @@
 $ npm install
 ```
 
+## .env 檔
+
+請在根目錄下，新建 .env 檔
+
+```
+GOOGLE_CLIENT_ID="<google client id>"
+GOOGLE_CLIENT_SECRET="<google 的 client secret>"
+GOOGLE_CALLBACK_URL="<google 的 callback url>"
+
+FACEBOOK_APP_ID="<facebook 的 app id>"
+FACEBOOK_APP_SECRET="<facebook 的 app secret>"
+FACEBOOK_CALLBACK_URL="<facebook 的 callback url>"
+
+PASSWORD_SALT_ROUNDS=<密碼的 salt rounds>
+
+SERVER_PORT=<express 啟動的 port>
+SERVER_ERROR_MSG=<伺服器出錯時，基本通用的伺服器錯誤訊息>
+
+TOKEN_SECRET="<登入時，token 的 secret>"
+TOKEN_EXPIRES_IN=<數字，秒數>
+```
+
 ## Scripts
 
 ```

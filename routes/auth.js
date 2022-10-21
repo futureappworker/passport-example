@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 const bcrypt = require('bcrypt');
 
 const { User } = require('../db');
@@ -12,13 +11,36 @@ const {
   createUserByEmail,
   findUserByEmail,
   getToken,
-  handleFacebookAuth,
-  handleGoogleAuth,
 } = require('../tools/auth');
 
 const router = express.Router();
 
-router.post('/login', async (req, res, next) => {
+router.post('/api/auth/login', async (req, res, next) => {
+  /*
+    #swagger.summary = 'Login'
+
+    #swagger.description = 'Login'
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Body',
+      required: true,
+      schema: {
+        email: 'aaa@gmail.com',
+        password: 'qwerQWER1@',
+      },
+    }
+
+    #swagger.responses[200] = {
+      description: 'Login successfully',
+      schema: {
+        message: 'Sign in suceesfully.',
+        userId: 1,
+        token: 'xxxxxx',
+      },
+    }
+  */
+
   const { email, password } = req.body;
   try {
     const user = await findUserByEmail({ email });
@@ -42,6 +64,8 @@ router.post('/login', async (req, res, next) => {
 
     return res.status(200).json({
       message: 'Sign in suceesfully.',
+      userId: user.id,
+      token,
     });
   } catch (err) {
     const error = new Error();
@@ -49,7 +73,32 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.post('/register', async (req, res, next) => {
+router.post('/api/auth/register', async (req, res, next) => {
+  /*
+    #swagger.summary = 'Register'
+
+    #swagger.description = 'Register'
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Body',
+      required: true,
+      schema: {
+        email: 'ccc@gmail.com',
+        password: 'qwerQWER1@',
+      },
+    }
+
+    #swagger.responses[200] = {
+      description: 'Register successfully',
+      schema: {
+        message: 'Register suceesfully.',
+        userId: 1,
+        token: 'xxxxxx',
+      },
+    },
+  */
+
   const { email, password } = req.body;
 
   try {
@@ -80,7 +129,9 @@ router.post('/register', async (req, res, next) => {
     await User.addNumberOfLogon({ id: user.id });
 
     return res.status(200).json({
-      message: 'Registered.',
+      message: 'Register successfully',
+      userId: user.id,
+      token,
     });
   } catch (err) {
     const error = new Error('Sign up error.');
@@ -89,72 +140,47 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.get('/google', passport.authenticate('google', {
-  scope: ['email', 'profile'],
-}));
+router.post('/api/auth/refreshToken', authenticateMiddleware, (req, res) => {
+  /*
+    #swagger.summary = 'Refresh token'
 
-router.get('/google/callback', passport.authenticate('google', { session: false }), async (req, res) => {
-  const providerId = req.user.id;
-  const name = req.user.displayName;
-  const email = req.user.emails[0].value;
-  let user;
+    #swagger.description = 'Refresh token'
 
-  try {
-    user = await handleGoogleAuth({
-      providerId,
-      name,
-      email,
-    });
-  } catch (err) {
-    res.redirect(`/sign-in?alert-message=${err.message}`);
-    return;
-  }
+    #swagger.parameters['Authorization'] = {
+      in: 'header',
+      description: 'Example: Bearer xxxxxx',
+      required: 'true',
+      schema: {
+        Authorization: 'Bearer ',
+      },
+    }
 
-  const token = getToken({ id: user.id });
-  res.cookie('token', token);
+    #swagger.responses[200] = {
+      description: 'Refresh token successfully',
+      schema: {
+        message: 'Refresh token suceesfully.',
+        userId: 1,
+        token: 'xxxxxx',
+      },
+    }
+  */
 
-  await User.addNumberOfLogon({ id: user.id });
-
-  res.redirect('/dashboard');
-});
-
-router.get('/facebook', passport.authenticate('facebook'));
-
-router.get('/facebook/callback', passport.authenticate('facebook', { authType: 'reauthenticate', scope: ['email'], session: false }), async (req, res) => {
-  const providerId = req.user.id;
-  const name = req.user.displayName;
-  const email = req.user.email || '';
-  let user;
-
-  try {
-    user = await handleFacebookAuth({
-      providerId,
-      name,
-      email,
-    });
-  } catch (err) {
-    res.redirect('/sign-in');
-    return;
-  }
-
-  const token = getToken({ id: user.id });
-  res.cookie('token', token);
-
-  await User.addNumberOfLogon({ id: user.id });
-
-  res.redirect('/dashboard');
-});
-
-router.post('/refreshToken', authenticateMiddleware, (req, res) => {
   const token = getToken({ id: req.user.id });
   res.cookie('token', token);
 
   res.status(200).json({
+    message: 'Refresh token suceesfully.',
+    userId: req.user.id,
     token,
   });
 });
 
-router.post('/logout', (req, res) => {
+router.post('/api/auth/logout', (req, res) => {
+  /*
+    #swagger.summary = 'Logout'
+
+    #swagger.description = 'Logout, clear cookie token, and redirect /sign-in'
+  */
   res.clearCookie('token');
   res.redirect('/sign-in');
 });

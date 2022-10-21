@@ -5,6 +5,7 @@
 - google passport
 - facebook passport
 - airbnb style eslint
+- swagger api doc
 
 ## install
 
@@ -12,28 +13,28 @@
 $ npm install
 ```
 
-## .env 檔
+## .env file
 
-請在根目錄下，新建 .env 檔
+Please create a new *.env* file in the root directory
 
 ```
 APP_NAME="<app name>"
 
-GOOGLE_CLIENT_ID="<google client id>"
-GOOGLE_CLIENT_SECRET="<google 的 client secret>"
-GOOGLE_CALLBACK_URL="<google 的 callback url>"
+GOOGLE_CLIENT_ID="<google's client id>"
+GOOGLE_CLIENT_SECRET="<google's client secret>"
+GOOGLE_CALLBACK_URL="<google's callback url>"
 
-FACEBOOK_APP_ID="<facebook 的 app id>"
-FACEBOOK_APP_SECRET="<facebook 的 app secret>"
-FACEBOOK_CALLBACK_URL="<facebook 的 callback url>"
+FACEBOOK_APP_ID="<facebook's app id>"
+FACEBOOK_APP_SECRET="<facebook's app secret>"
+FACEBOOK_CALLBACK_URL="<facebook's callback url>"
 
-PASSWORD_SALT_ROUNDS=<密碼的 salt rounds>
+PASSWORD_SALT_ROUNDS=<password salt rounds>
 
-SERVER_PORT=<express 啟動的 port>
-SERVER_ERROR_MSG=<伺服器出錯時，基本通用的伺服器錯誤訊息>
+SERVER_PORT=<The port started by express>
+SERVER_ERROR_MSG=<Basic generic server error message when the server fails>
 
-TOKEN_SECRET="<登入時，token 的 secret>"
-TOKEN_EXPIRES_IN=<數字，秒數>
+TOKEN_SECRET="<When logging in, token's secret>"
+TOKEN_EXPIRES_IN=<number, seconds>
 ```
 
 ## Scripts
@@ -44,50 +45,59 @@ $ npm run start
 
 // run eslint
 $ npm run lint
+
+// build swagger output file
+$ npm run swagger-autogen
 ```
 
-## 目錄結構 說明
+## swagger api document
+
+*http://localhost:3000/api-docs* or */api-docs*
+
+## Directory Structure
 
 ```
 .
 ├── README.md
-├── app.js                              express.js 入口
-├── server.js                           主程式進入點
-├── .eslintrc                           eslint 設定檔
-├── .env                                環境變數 設定檔
+├── app.js                              express.js entry
+├── server.js                           main program entry
+├── .eslintrc                           eslint configuration file
+├── .env                                environment variable configuration file
+├── swagger.js                          swagger configuration file
+├── swagger-output.json                 swagger output file
 ├── db
-│   ├── index.js                        Models 集中匯出
-│   ├── models                          存放各個 model 的目錄
-│   ├── relationship.js                 記錄 model 間的關聯
-│   ├── sequelize.js                    sequelize connection 實例
-│   └── setup.js                        執行些 SQL 初始化 任務
-├── middleware                          存放各個 express 中間件 的目錄
-│   ├── index.js                        中間件 集中匯出
-│   ├── authenticateMiddleware.js       ajax api 使用
-│   ├── needLoggedInMiddleware.js       登入後，頁面使用
-│   ├── needNotLoggedInMiddleware.js    登入前，頁面使用
-│   └── parseUserMiddleware.js          一般頁面使用
+│   ├── index.js                        Models centralized export
+│   ├── models                          model directory
+│   ├── relationship.js                 model relationship
+│   ├── sequelize.js                    sequelize connection instance
+│   └── setup.js                        SQL initialization task
+├── middleware                          expressmiddleware directory
+│   ├── index.js                        middleware centralized export
+│   ├── authenticateMiddleware.js       ajax api usage
+│   ├── needLoggedInMiddleware.js       after logging in, the page uses
+│   ├── needNotLoggedInMiddleware.js    before logging in, the page uses
+│   └── parseUserMiddleware.js          general page usage
 ├── package-lock.json
 ├── package.json
-├── public                              公開靜態檔案
-│   ├── css                             存放 css 的目錄
-│   └── js                              存放 js 的目錄
-├── routes                              express 路由
-│   ├── auth.js                         auth 相關路由
-│   ├── page.js                         一般的頁面路由
-│   ├── signInAfterPage.js              登入後的頁面路由
-│   └── signInBeforePage.js             登入前的頁面路由
-├── strategies                          登入策略 的目錄
-│   ├── facebookStrategy.js             facebook 策略
-│   └── googleStrategy.js               google 策略
-├── tools                               各種工具函式
-│   └── auth                            auth 相關函式 的目錄
-│       └── index.js                    auth 相關函式 集中匯出
-└── views                               ejs views 目錄
-    ├── layout                          ejs layout 目錄
+├── public                              public static file directory
+│   ├── css                             css directory
+│   └── js                              js directory
+├── routes                              express route
+│   ├── auth.js                         auth route
+│   ├── page.js                         general page route
+│   ├── signInAfterPage.js              after logging in route
+│   └── signInBeforePage.js             before logging in route
+├── strategies                          login strategies directory
+│   ├── facebookStrategy.js             facebook strategy
+│   └── googleStrategy.js               google strategy
+├── tools                               utility functions
+│   └── auth                            auth funtions directory
+│       └── index.js                    auth functions centralized export
+└── views                               ejs views directory
+    ├── layout                          ejs layout directory
     │   ├── basicLayout.ejs
     │   └── signLayout.ejs
-    ├── partial                         ejs partial 目錄
+    ├── partial                         ejs partial directory
     │   ├── footer.ejs
     │   └── header.ejs
     ├── home.ejs

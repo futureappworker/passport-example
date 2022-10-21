@@ -4,10 +4,14 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const engine = require('ejs-locals');
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerDocument = require('./swagger-output.json');
 
 const pageRouter = require('./routes/page');
 const signInBeforePageRouter = require('./routes/signInBeforePage');
 const signInAfterPageRouter = require('./routes/signInAfterPage');
+const strategyRouter = require('./routes/strategy');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
@@ -25,6 +29,8 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 require('./strategies/googleStrategy');
 require('./strategies/facebookStrategy');
 
@@ -33,8 +39,9 @@ app.use('/static', serveStatic('public'));
 app.use('/', pageRouter);
 app.use('/', signInBeforePageRouter);
 app.use('/', signInAfterPageRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
+app.use('/', strategyRouter);
+app.use('/', authRouter);
+app.use('/', usersRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send('Not Found');

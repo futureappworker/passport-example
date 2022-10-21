@@ -1,0 +1,255 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "description": "Description",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Login",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "aaa@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "qwerQWER1@"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Sign in suceesfully."
+                },
+                "userId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "token": {
+                  "type": "string",
+                  "example": "xxxxxx"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register",
+        "description": "Register",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "ccc@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "qwerQWER1@"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Register successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Register suceesfully."
+                },
+                "userId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "token": {
+                  "type": "string",
+                  "example": "xxxxxx"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/auth/refreshToken": {
+      "post": {
+        "summary": "Refresh token",
+        "description": "Refresh token",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Example: Bearer xxxxxx",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "example": "Bearer "
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refresh token successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Refresh token suceesfully."
+                },
+                "userId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "token": {
+                  "type": "string",
+                  "example": "xxxxxx"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "description": "Logout, clear cookie token, and redirect /sign-in",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/users/{id}/updateName": {
+      "post": {
+        "summary": "Update user's name",
+        "description": "Update name, only your own name can be updated",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Example: Bearer xxxxxx",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "example": "Bearer "
+                }
+              }
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jack"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update name successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Update name suceesfully."
+                },
+                "userId": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  }
+}

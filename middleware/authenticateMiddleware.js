@@ -1,11 +1,27 @@
 const { getDecodedToken } = require('../tools/auth');
 const { User } = require('../db');
 
+const getHeaderToken = ({ authHeader = '' } = {}) => {
+  if (!authHeader) {
+    return '';
+  }
+  const [prefixString, token] = authHeader.split(' ');
+  if (prefixString !== 'Bearer ') {
+    return '';
+  }
+  return token;
+};
+
 const authenticateMiddleware = async (req, res, next) => {
-  const { token } = req.cookies;
+  const headerToken = getHeaderToken({ authHeader: req.headers.Authorization });
+
   try {
-    if (token) {
-      const decodedToken = getDecodedToken({ token });
+    const resultToken = req.cookies.token || headerToken;
+    if (!resultToken) {
+      throw new Error('Need cookie token or header Authorization token.');
+    }
+    if (resultToken) {
+      const decodedToken = getDecodedToken({ token: resultToken });
       const user = await User.findOneById({ id: decodedToken.id });
       req.user = user;
     }

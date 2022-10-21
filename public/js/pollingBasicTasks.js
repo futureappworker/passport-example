@@ -7,7 +7,11 @@ function getCookie(name) {
 function refreshToken() {
   const token = getCookie('token');
   if (token) {
-    axios.post('/api/auth/refreshToken')
+    axios.post('/api/auth/refreshToken', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then(() => {
       })
       .catch((error) => {

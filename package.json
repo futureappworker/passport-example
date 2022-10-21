@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "./node_modules/.bin/eslint .",
+    "swagger-autogen": "node ./swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": [
@@ -28,6 +29,8 @@
     "sequelize": "^6.25.1",
     "serve-static": "^1.15.0",
     "sqlite3": "^5.1.2",
+    "swagger-autogen": "^2.22.0",
+    "swagger-ui-express": "^4.5.0",
     "validate.js": "^0.13.1"
   },
   "devDependencies": {

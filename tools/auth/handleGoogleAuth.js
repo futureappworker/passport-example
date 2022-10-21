@@ -26,6 +26,7 @@ const handleGoogleAuth = async (parmas) => {
     provider: {
       providerId,
       providerType: 'google',
+      name,
     },
   }, {
     include: [{

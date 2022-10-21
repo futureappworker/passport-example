@@ -17,6 +17,8 @@ $ npm install
 請在根目錄下，新建 .env 檔
 
 ```
+APP_NAME="<app name>"
+
 GOOGLE_CLIENT_ID="<google client id>"
 GOOGLE_CLIENT_SECRET="<google 的 client secret>"
 GOOGLE_CALLBACK_URL="<google 的 callback url>"

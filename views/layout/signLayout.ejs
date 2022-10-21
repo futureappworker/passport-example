@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%=title%></title>
+    <title><%=`${appName} | ${title}`%></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/sign.css">
   </head>
   <body>
+    <h1 class="visually-hidden">
+      <%=appName%>
+    </h1>
     <div class="overlay">
       <div class="sign-container">
         <div class="card">
@@ -20,6 +23,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/static/js/alertMessage.js"></script>
+    <script src="/static/js/toastMessage.js"></script>
+    <script src="/static/js/global.js"></script>
     <%-blocks.script%>
   </body>
 </html>

@@ -146,8 +146,8 @@ function handleFormSubmit() {
     });
 }
 
-(() => {
+$(() => {
   $('#email').focus();
   handleInput();
   handleFormSubmit();
-})();
+});

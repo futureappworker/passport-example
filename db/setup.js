@@ -18,6 +18,24 @@ const createTestUser = async () => {
       association: User.Provider,
     }],
   });
+
+  await User.create({
+    hashedPassword: 'qwerQWER1@',
+    profile: {
+      email: 'bbb@gmail.com',
+      isEmailVerified: false,
+    },
+    provider: {
+      providerType: 'email',
+    },
+    numberOfLogon: 1,
+  }, {
+    include: [{
+      association: User.Profile,
+    }, {
+      association: User.Provider,
+    }],
+  });
 };
 
 module.exports = {

@@ -16,16 +16,19 @@ const needLoggedInMiddleware = async (req, res, next) => {
       return;
     }
   } catch (err) {
-    // if (err.name === 'TokenExpiredError') {
-    //   res.redirect('/sign-in?tip-message=TokenExpiredError');
-    //   return;
-    // }
+    if (err.name === 'TokenExpiredError') {
+      res.clearCookie('token');
+      res.redirect('/sign-in?alert-message=Sign in expired, please sign in again.');
+      return;
+    }
     // if (err.name === 'JsonWebTokenError') {
+    //   res.clearCookie('token');
     //   res.redirect('/sign-in?tip-message=JsonWebTokenError');
     //   return;
     // }
   }
-  res.redirect('/sign-in?alert-message=Sign in expired, please sign in again.');
+  res.clearCookie('token');
+  res.redirect('/sign-in?alert-message=Please sign in.');
 };
 
 module.exports = needLoggedInMiddleware;

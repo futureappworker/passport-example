@@ -9,6 +9,7 @@ const pageRouter = require('./routes/page');
 const signInBeforePageRouter = require('./routes/signInBeforePage');
 const signInAfterPageRouter = require('./routes/signInAfterPage');
 const authRouter = require('./routes/auth');
+const usersRouter = require('./routes/users');
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use('/', pageRouter);
 app.use('/', signInBeforePageRouter);
 app.use('/', signInAfterPageRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send('Not Found');

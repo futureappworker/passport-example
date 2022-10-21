@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 
 const sequelize = require('../sequelize');
 
+const Profile = require('./profileModel');
+
 class User extends Model {
   static async findOneById({ id }) {
     const user = await User.findOne({
@@ -16,7 +18,7 @@ class User extends Model {
         attributes: ['name', 'email', 'isEmailVerified'],
       }, {
         association: User.Provider,
-        attributes: ['providerId', 'providerType'],
+        attributes: ['providerId', 'providerType', 'name'],
       }],
     });
     return user;
@@ -34,7 +36,7 @@ class User extends Model {
         },
       }, {
         association: User.Provider,
-        attributes: ['providerId', 'providerType'],
+        attributes: ['providerId', 'providerType', 'name'],
       }],
     });
     return user;
@@ -47,7 +49,7 @@ class User extends Model {
         attributes: ['name', 'email', 'isEmailVerified'],
       }, {
         association: User.Provider,
-        attributes: ['providerId', 'providerType'],
+        attributes: ['providerId', 'providerType', 'name'],
         where: {
           providerId: {
             [Op.eq]: providerId,
@@ -68,7 +70,7 @@ class User extends Model {
         attributes: ['name', 'email', 'isEmailVerified'],
       }, {
         association: User.Provider,
-        attributes: ['providerId', 'providerType'],
+        attributes: ['providerId', 'providerType', 'name'],
         where: {
           providerId: {
             [Op.eq]: providerId,
@@ -89,6 +91,18 @@ class User extends Model {
         numberOfLogon: addNumber,
       });
     }
+  }
+
+  static async updateNameById({ id, name = '' } = {}) {
+    await Profile.update({
+      name,
+    }, {
+      where: {
+        userId: id,
+      },
+    });
+    const user = await User.findOneById({ id });
+    return user;
   }
 }
 

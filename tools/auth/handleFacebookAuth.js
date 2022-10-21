@@ -23,6 +23,7 @@ const handleFacebookAuth = async (parmas) => {
     provider: {
       providerId,
       providerType: 'facebook',
+      name,
     },
   }, {
     include: [{

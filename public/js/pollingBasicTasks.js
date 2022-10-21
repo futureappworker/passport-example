@@ -16,9 +16,9 @@ function refreshToken() {
   }
 }
 
-(() => {
+$(() => {
   // every 15 minutes, refresh token
   setInterval(() => {
     refreshToken();
   }, 15 * 60 * 1000);
-})();
+});

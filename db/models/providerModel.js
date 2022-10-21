@@ -21,6 +21,9 @@ Provider.init({
       isIn: [['email', 'google', 'facebook']],
     },
   },
+  name: {
+    type: DataTypes.STRING(50),
+  },
 }, {
   sequelize,
   modelName: 'provider',

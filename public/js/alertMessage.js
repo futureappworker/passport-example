@@ -26,7 +26,7 @@ function updateQuerystring({ queryString = '' } = {}) {
   window.history.pushState('', '', pageUrl);
 }
 
-(() => {
+$(() => {
   const parsedQueryString = getParsedQueryString();
   const message = parsedQueryString['alert-message'];
   if (message) {
@@ -52,4 +52,4 @@ function updateQuerystring({ queryString = '' } = {}) {
       alert.close();
     }, 3000);
   }
-})();
+});

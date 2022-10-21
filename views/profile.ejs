@@ -1,58 +1,219 @@
 <% layout('layout/basicLayout') -%>
 
-<h1>Profile</h1>
+<% block('css', '<link rel="stylesheet" href="/static/css/profile.css">') -%>
 
 <% if (profileUser) { %>
-<ul>
-  <li>
-    <div>
-      Is self:
-    </div>
-    <div>
-      <%= isSelf ? 'true' : 'false' %>
-    </div>
-  </li>
+<div class="row">
+  <div class="col-12 col-lg-4 mb-4">
+    <div class="card shadow">
+      <div class="card-body px-4 py-5 vertical-linear-gradient">
+        <h2 class="card-title visually-hidden">Profile</h2>
+        <img class="img-fluid rounded-circle mx-auto d-block mb-5" src="https://via.placeholder.com/160x160" alt="內容施工中" />
+        <% if (user && profileUser && user.id === profileUser.id) { %>
+          <div class="name-text pb-2 has-border-bottom card-text d-flex justify-content-center align-items-center">
+            <% if (profileUser.profile.name) { %>
+              <span>
+                <%= profileUser.profile.name %>
+              </span>
+            <% } %>
 
-  <li>
-    <div>
-      name:
-    </div>
-    <div>
-      <%= profileUser.profile.name %>
-    </div>
-  </li>
+            <% if (!profileUser.profile.name) { %>
+              <span class="unset-text">
+                未設定
+              </span>
+            <% } %>
 
-  <li>
-    <div>
-      Email:
-    </div>
-    <div>
-      <%= profileUser.profile.email %>
-    </div>
-  </li>
+            <svg class="edit-name-button ms-2" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+            </svg>
+          </div>
 
-  <li>
-    <div>
-      Email Verified:
-    </div>
-    <div>
-      <%= profileUser.profile.isEmailVerified %>
-    </div>
-  </li>
+          <form class="edit-name-form d-none" action="<%=`/api/users/${user.id}/updateName`%>" method="POST">
+            <input
+              class="mb-3"
+              name="name"
+              type="text"
+              value="<%= profileUser.profile.name || '' %>"
+            />
+            <div class="text-center">
+              <button type="button" class="cancel-edit-name-button btn btn-light me-2 px-4">取消</button>
+              <button type="submit" class="submit-edit-name-button btn btn-primary px-4">確認</button>
+            </div>
+          </form>
+        <% } else { %>
+          <div class="name-text card-text text-center">
+            <% if (profileUser.profile.name) { %>
+              <span>
+                <%= profileUser.profile.name %>
+              </span>
+            <% } %>
 
-  <li>
-    <div>
-      Number Of Logon:
+            <% if (!profileUser.profile.name) { %>
+              <span class="unset-text">
+                未設定
+              </span>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
     </div>
-    <div>
-      <%= profileUser.numberOfLogon %>
+  </div>
+  <div class="col-12 col-lg-8 mb-4">
+    <div class="card shadow">
+      <div class="card-body px-4 py-5">
+        <% if (user && profileUser && user.id === profileUser.id) { %>
+          <h3 class="mb-3">
+            <span>
+              登入方式
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-question-circle-fill"
+              viewBox="0 0 16 16"
+              data-bs-toggle="tooltip"
+              data-bs-placement="right"
+              title="你的登入方式"
+            >
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+            </svg>
+          </h3>
+          <div class="d-inline-flex justify-content-center align-items-center">
+            <% if (profileUser.provider.providerType === 'email') { %>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                class="bi bi-envelope-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+              </svg>
+              <span class="ms-2">Email: <%= profileUser.profile.email %></span>
+            <% } %>
+            <% if (profileUser.provider.providerType === 'google') { %>
+              <img src="/static/image/google-icon.svg" alt="google login image" />
+              <span class="ms-2">連結為: <%= profileUser.provider.name %> </span>
+            <% } %>
+            <% if (profileUser.provider.providerType === 'facebook') { %>
+              <img src="/static/image/facebook-circle-icon.svg" alt="google login image" />
+              <span class="ms-2">連結為: <%= profileUser.provider.name %> </span>
+            <% } %>
+          </div>
+          <div class="dashed-line"></div>
+        <% } %>
+
+        <h3 class="mb-3">
+          <span>
+            Email
+          </span>
+          <% if (user && profileUser && user.id === profileUser.id) { %>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-question-circle-fill"
+            viewBox="0 0 16 16"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            title="驗證信箱，會帶給你更完整的體驗"
+          >
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+          </svg>
+          <% } %>
+        </h3>
+        <div>
+          <% if (user && profileUser && user.id === profileUser.id) { %>
+            <form action="">
+              <div class="row g-3">
+                <div class="col-8 col-sm-9">
+                  <% if (profileUser.provider.providerType === 'email') { %>
+                    <div>
+                      <%= profileUser.profile.email %>
+                    </div>
+                  <% } else { %>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="<%= profileUser.profile.email || '' %>" />
+                  <% } %>
+                </div>
+                <div class="col-4 col-sm-3">
+                  <% if (profileUser.profile.isEmailVerified) { %>
+                  <button
+                    type="submit"
+                    class="btn btn-primary w-100 d-inline-flex justify-content-center align-items-center"
+                    disabled
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-envelope me-2"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                    </svg>
+                    <span>
+                      已驗證
+                    </span>
+                  </button>
+                  <% } %>
+
+                  <% if (!profileUser.profile.isEmailVerified) { %>
+                    <button
+                    type="submit"
+                    class="btn btn-primary w-100 d-inline-flex justify-content-center align-items-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-envelope me-2"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                    </svg>
+                    <span>
+                      驗證
+                    </span>
+                  </button>
+                  <% } %>
+                </div>
+              </div>
+            </form>
+          <% } else { %>
+            <div>
+              <% if (profileUser.profile.email) { %>
+                <span>
+                  <%= profileUser.profile.email %>
+                </span>
+              <% } %>
+    
+              <% if (!profileUser.profile.email) { %>
+                <span class="unset-text">
+                  未設定 email
+                </span>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+      </div>
     </div>
-  </li>
-</ul>
+  </div>
+</div>
 <% } %>
 
 <% if (!profileUser) { %>
-<div>
+<div class="text-center lead">
   Not find user.
 </div>
 <% } %>
+
+<input type="hidden" id="userId" value="<%= user && user.id %>" />
+<input type="hidden" id="isCanEdit" value="<%= !!(user && profileUser && user.id === profileUser.id) %>" />
+
+<% block('script', '<script src="/static/js/profile.js"></script>') -%>

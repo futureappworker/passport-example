@@ -8,6 +8,7 @@ const { parseUserMiddleware } = require('../middleware');
 
 router.get('/', parseUserMiddleware, (req, res) => {
   res.render('home', {
+    appName: process.env.APP_NAME,
     title: 'Home',
     user: req.user,
   });
@@ -19,6 +20,7 @@ router.get('/profile/:id', parseUserMiddleware, async (req, res) => {
   const loginUserId = req.user && req.user.id;
   if (loginUserId === paramsId) {
     res.render('profile', {
+      appName: process.env.APP_NAME,
       title: 'Profile',
       user: loginUser,
       profileUser: loginUser,
@@ -28,6 +30,7 @@ router.get('/profile/:id', parseUserMiddleware, async (req, res) => {
   }
   const profileUser = await User.findOneById({ id: paramsId });
   res.render('profile', {
+    appName: process.env.APP_NAME,
     title: 'Profile',
     user: loginUser,
     profileUser,

@@ -1,3 +1,8 @@
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+}
+
 .dashed-line {
   margin-top: 30px;
   padding-bottom: 30px;
@@ -7,4 +12,97 @@
 
 .vertical-linear-gradient {
   background: linear-gradient(rgb(2, 170, 176), rgb(0, 205, 172));
+}
+
+.number-sprite {
+  display: inline-block;
+  width: 100px;
+  height: 140px;
+  background-image: url('/static/image/number-sprite.png');
+}
+
+.number-sprite.number-0 {
+  background-position: -28px -13px;
+}
+
+.number-sprite.number-1 {
+  background-position: -126px -13px;
+}
+
+.number-sprite.number-2 {
+  background-position: -227px -13px;
+}
+
+.number-sprite.number-3 {
+  background-position: -333px -13px;
+}
+
+.number-sprite.number-4 {
+  background-position: -436px -18px;
+}
+
+.number-sprite.number-5 {
+  background-position: -28px -150px;
+}
+
+.number-sprite.number-6 {
+  background-position: -128px -150px;
+}
+
+.number-sprite.number-7 {
+  background-position: -232px -150px;
+}
+
+.number-sprite.number-8 {
+  background-position: -336px -150px;
+}
+
+.number-sprite.number-9 {
+  background-position: -448px -150px;
+}
+
+.number-sprite.small {
+  width: 50px;
+  height: 70px;
+  background-size: 290px 150px;
+}
+
+.number-sprite.number-0.small {
+  background-position: -14px -6.5px;
+}
+
+.number-sprite.number-1.small {
+  background-position: -63px -6.5px;
+}
+
+.number-sprite.number-2.small {
+  background-position: -113.5px -6.5px;
+}
+
+.number-sprite.number-3.small {
+  background-position: -166.5px -6.5px;
+}
+
+.number-sprite.number-4.small {
+  background-position: -218px -9px;
+}
+
+.number-sprite.number-5.small {
+  background-position: -14px -75px;
+}
+
+.number-sprite.number-6.small {
+  background-position: -64px -75px;
+}
+
+.number-sprite.number-7.small {
+  background-position: -116px -75px;
+}
+
+.number-sprite.number-8.small {
+  background-position: -168px -75px;
+}
+
+.number-sprite.number-9.small {
+  background-position: -224px -75px;
 }

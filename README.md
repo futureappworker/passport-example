@@ -81,9 +81,13 @@ $ npm run swagger-autogen
 ├── package.json
 ├── public                              public static file directory
 │   ├── css                             css directory
+│   ├── image                           image directory
 │   └── js                              js directory
 ├── routes                              express route
 │   ├── auth.js                         auth route
+│   ├── users.js                        users route
+│   ├── site.js                         site route
+│   ├── strategy.js                     strategy route
 │   ├── page.js                         general page route
 │   ├── signInAfterPage.js              after logging in route
 │   └── signInBeforePage.js             before logging in route
@@ -93,6 +97,10 @@ $ npm run swagger-autogen
 ├── tools                               utility functions
 │   └── auth                            auth funtions directory
 │       └── index.js                    auth functions centralized export
+│   └── users                           users funtions directory
+│       └── index.js                    users functions centralized export
+│   └── site                            site funtions directory
+│       └── index.js                    site functions centralized export
 └── views                               ejs views directory
     ├── layout                          ejs layout directory
     │   ├── basicLayout.ejs

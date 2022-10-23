@@ -14,6 +14,7 @@ const signInAfterPageRouter = require('./routes/signInAfterPage');
 const strategyRouter = require('./routes/strategy');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const siteRouter = require('./routes/site');
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use('/', signInAfterPageRouter);
 app.use('/', strategyRouter);
 app.use('/', authRouter);
 app.use('/', usersRouter);
+app.use('/', siteRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send('Not Found');

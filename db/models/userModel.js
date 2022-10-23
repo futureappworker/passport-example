@@ -1,11 +1,22 @@
 const { Model, DataTypes, Op } = require('sequelize');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const sequelize = require('../sequelize');
 
 const Profile = require('./profileModel');
+const Session = require('./sessionModel');
 
 class User extends Model {
+  static async getUserList({ offset, limit }) {
+    const users = await User.findAll({
+      attributes: ['id', 'signUpAt', 'lastSession', 'numberOfLogon'],
+      offset,
+      limit,
+    });
+    return users;
+  }
+
   static async findOneById({ id }) {
     const user = await User.findOne({
       where: {
@@ -104,6 +115,26 @@ class User extends Model {
     const user = await User.findOneById({ id });
     return user;
   }
+
+  static async addSession({ id } = {}) {
+    const user = await User.findOneById({ id });
+    if (!user) {
+      return;
+    }
+    const session = await Session.create({
+      userId: id,
+    });
+    await user.update({
+      lastSession: session.createdAt,
+    });
+    await user.save();
+    return session;
+  }
+
+  static async getUserTotal() {
+    const total = await User.count();
+    return total;
+  }
 }
 
 User.init({
@@ -124,10 +155,18 @@ User.init({
   signUpAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
+    get() {
+      const rawValue = this.getDataValue('signUpAt');
+      return moment(rawValue).valueOf();
+    },
   },
   lastSession: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
+    get() {
+      const rawValue = this.getDataValue('lastSession');
+      return moment(rawValue).valueOf();
+    },
   },
   numberOfLogon: {
     type: DataTypes.INTEGER.UNSIGNED,

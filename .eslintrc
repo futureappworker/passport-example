@@ -8,7 +8,9 @@
     "validate": true,
     "axios": true,
     "bootstrap": true,
-    "toastMessage": true
+    "toastMessage": true,
+    "moment": true,
+    "_": true
   },
   "rules": {
     "consistent-return": "off"

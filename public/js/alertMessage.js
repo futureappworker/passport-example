@@ -1,9 +1,14 @@
 function getParsedQueryString() {
   const parsedQueryString = {};
-  const hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-  for (let i = 0; i < hashes.length; i += 1) {
-    const [key, value] = hashes[i].split('=');
-    parsedQueryString[key] = value;
+  let hashes = {};
+  if (/[?]/g.test(window.location.href)) {
+    hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (let i = 0; i < hashes.length; i += 1) {
+      if (/[=]/g.test(hashes[i])) {
+        const [key, value] = hashes[i].split('=');
+        parsedQueryString[key] = value;
+      }
+    }
   }
   return parsedQueryString;
 }

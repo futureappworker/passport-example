@@ -32,7 +32,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
     return;
   }
 
-  const token = getToken({ id: user.id });
+  const token = await getToken({ id: user.id });
   res.cookie('token', token);
 
   await User.addNumberOfLogon({ id: user.id });
@@ -59,7 +59,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', { authTy
     return;
   }
 
-  const token = getToken({ id: user.id });
+  const token = await getToken({ id: user.id });
   res.cookie('token', token);
 
   await User.addNumberOfLogon({ id: user.id });

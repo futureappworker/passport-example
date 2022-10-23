@@ -1,0 +1,16 @@
+.pagination-input-btn {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  cursor: default;
+  color: #555;
+}
+
+.pagination-input-btn input {
+  border-color: #999;
+  width: 3rem;
+  font-size: 14.6px;
+}
+
+.pagination-input-btn input:focus {
+  outline: none;
+}

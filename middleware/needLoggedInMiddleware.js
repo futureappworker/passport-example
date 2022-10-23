@@ -8,7 +8,7 @@ const needLoggedInMiddleware = async (req, res, next) => {
     if (reqToken) {
       const decodedToken = getDecodedToken({ token: reqToken });
       // get new token
-      const newToken = getToken({ id: decodedToken.id });
+      const newToken = await getToken({ id: decodedToken.id });
       // set cookie new token
       res.cookie('token', newToken);
       req.user = await User.findOneById({ id: decodedToken.id });

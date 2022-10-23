@@ -57,7 +57,7 @@ router.post('/api/auth/login', async (req, res, next) => {
       });
     }
 
-    const token = getToken({ id: user.id });
+    const token = await getToken({ id: user.id });
     res.cookie('token', token);
 
     await User.addNumberOfLogon({ id: user.id });
@@ -123,7 +123,7 @@ router.post('/api/auth/register', async (req, res, next) => {
   try {
     const user = await createUserByEmail({ email, password });
 
-    const token = getToken({ id: user.id });
+    const token = await getToken({ id: user.id });
     res.cookie('token', token);
 
     await User.addNumberOfLogon({ id: user.id });
@@ -140,7 +140,7 @@ router.post('/api/auth/register', async (req, res, next) => {
   }
 });
 
-router.post('/api/auth/refreshToken', authenticateMiddleware, (req, res) => {
+router.post('/api/auth/refreshToken', authenticateMiddleware, async (req, res) => {
   /*
     #swagger.summary = 'Refresh token'
 
@@ -165,7 +165,7 @@ router.post('/api/auth/refreshToken', authenticateMiddleware, (req, res) => {
     }
   */
 
-  const token = getToken({ id: req.user.id });
+  const token = await getToken({ id: req.user.id });
   res.cookie('token', token);
 
   res.status(200).json({

@@ -2,6 +2,7 @@ const {
   User,
   Profile,
   Provider,
+  Session,
 } = require('.');
 
 const setup = () => {
@@ -12,6 +13,10 @@ const setup = () => {
   // User and Provider, One-To-One relationship
   User.Provider = User.hasOne(Provider);
   Provider.User = Provider.belongsTo(User);
+
+  // User and Session, One-To-Many relationship
+  User.hasMany(Session);
+  Session.belongsTo(User);
 };
 
 module.exports = {

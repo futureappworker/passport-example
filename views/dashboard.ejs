@@ -1,3 +1,69 @@
 <% layout('layout/basicLayout') -%>
 
+<% block('css', '<link rel="stylesheet" href="/static/css/dashboard.css">') -%>
+
 <h2 class="visually-hidden">Dashboard</h2>
+
+<h3>User Statistics</h3>
+
+<div class="card-group mb-5">
+  <div class="card">
+    <div class="card-body d-flex flex-column align-items-center justify-content-between">
+      <h4 class="card-title h5">Total number of users who have signed up.</h4>
+      <div id="userTotal" class="card-text mt-3 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body d-flex flex-column align-items-center justify-content-between">
+      <h4 class="card-title h5">Total number of users with active sessions today.</h4>
+      <div id="todayActiveUserTotal" class="card-text mt-3 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body d-flex flex-column align-items-center justify-content-between">
+      <h4 class="card-title h5">Average number of active session users in the last 7 days rolling.</h4>
+      <div id="lastSevenDayActiveUserAverage" class="card-text mt-3 text-center">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table id="userListTable" class="table table-bordered table-hover caption-top">
+    <caption>
+      <h3>Users</h3>
+    </caption>
+    <thead class="table-light text-center">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Number Of Logon</th>
+        <th scope="col">Last Session Timestamp (milliseconds)</th>
+        <th scope="col">Sign Up Timestamp (milliseconds)</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <tr>
+        <td colspan="4">
+          Loading...
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <nav aria-label="user list navigation">
+            <ul id="userListPagination" class="pagination justify-content-center mb-0">
+              <li class="previous-btn page-item disabled"><a class="page-link" href="javascript: void(0)">Previous</a></li>
+              <li class="page-item active"><a class="page-link" href="javascript: void(0)">1</a></li>
+              <li class="next-btn page-item disabled"><a class="page-link" href="javascript: void(0)">Next</a></li>
+            </ul>
+          </nav>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<% block('script', '<script src="/static/js/dashboard.js"></script>') -%>

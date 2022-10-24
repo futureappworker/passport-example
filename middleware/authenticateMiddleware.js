@@ -23,6 +23,9 @@ const authenticateMiddleware = async (req, res, next) => {
     if (resultToken) {
       const decodedToken = getDecodedToken({ token: resultToken });
       const user = await User.findOneById({ id: decodedToken.id });
+      if (!user) {
+        throw new Error('User not found, please sign in again.');
+      }
       req.user = user;
     }
   } catch (err) {

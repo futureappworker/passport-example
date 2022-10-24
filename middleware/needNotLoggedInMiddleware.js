@@ -1,10 +1,15 @@
 const { getDecodedToken } = require('../tools/auth');
+const { User } = require('../db');
 
 const needNotLoggedInMiddleware = async (req, res, next) => {
   const { token } = req.cookies;
   try {
     if (token) {
-      getDecodedToken({ token });
+      const decodedToken = getDecodedToken({ token });
+      req.user = await User.findOneById({ id: decodedToken.id });
+      if (!req.user) {
+        throw new Error('User not found, please sign in again.');
+      }
       res.redirect('/dashboard');
       return;
     }

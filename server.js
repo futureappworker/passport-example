@@ -1,5 +1,7 @@
 const dotenv = require('dotenv');
 
+dotenv.config();
+
 const sequelize = require('./db/sequelize');
 const app = require('./app');
 const dbSetup = require('./db/setup');
@@ -9,8 +11,6 @@ const relationship = require('./db/relationship');
 require('./db');
 
 relationship.setup();
-
-dotenv.config();
 
 (async () => {
   await sequelize.sync();

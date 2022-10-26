@@ -21,6 +21,7 @@ const handleGoogleAuth = async (parmas) => {
       profile.email = email;
     }
   }
+  profile.isEmailVerified = true;
   user = await User.create({
     profile,
     provider: {

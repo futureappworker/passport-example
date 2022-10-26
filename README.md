@@ -35,6 +35,10 @@ SERVER_ERROR_MSG=<Basic generic server error message when the server fails>
 
 TOKEN_SECRET="<When logging in, token's secret>"
 TOKEN_EXPIRES_IN=<number, seconds>
+
+EMAIL_VERIFICATION_FOR_EMAIL_EXPIRES_IN=<number, email verification for email expires in, seconds>
+
+SENDGRID_API_KEY="<sendgrid api key>"
 ```
 
 ## Scripts
@@ -101,6 +105,7 @@ $ npm run swagger-autogen
 │       └── index.js                    users functions centralized export
 │   └── site                            site funtions directory
 │       └── index.js                    site functions centralized export
+│   └── sgMail                          sendgrid
 └── views                               ejs views directory
     ├── layout                          ejs layout directory
     │   ├── basicLayout.ejs

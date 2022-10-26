@@ -2,14 +2,8 @@ let state = {
   name: '',
 };
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
 function updateName({ name }) {
-  const token = getCookie('token');
+  const token = globalTool.getCookie('token');
   const id = $('#userId').val();
   return axios.post(`/api/users/${id}/updateName`, { name }, {
     headers: {
@@ -53,14 +47,14 @@ function handleEditNameFormSubmit() {
       .then(() => {
         window.location.reload();
       }, (err) => {
-        toastMessage.addMessage({
+        globalTool.toastMessage.addMessage({
           message: err.response.data.message,
         });
       });
   });
 }
 
-$(() => {
+function handleName() {
   const isCanEdit = $('#isCanEdit').val();
 
   state = {
@@ -73,4 +67,42 @@ $(() => {
     handleCancelEditNameButtonClick();
     handleEditNameFormSubmit();
   }
+}
+
+function handleEmailVerificationForm() {
+  const $emailVerificationForm = $('#emailVerificationForm');
+  $emailVerificationForm.submit((e) => {
+    e.preventDefault();
+
+    const token = globalTool.getCookie('token');
+    const email = $emailVerificationForm.find('input[name="email"]').val();
+
+    axios.post('/api/users/sendEmailVerificationForEmail', { email }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        globalTool.openSuccessModal({
+          title: 'Send Email Verification',
+          message: `
+            ${response.data.message}
+            <br />
+            Please go to the mailbox to receive.
+          `,
+        });
+      }, (err) => {
+        let parsedQueryString = globalTool.getParsedQueryString();
+        parsedQueryString = { ...parsedQueryString, 'alert-message': err.response.data.message };
+        const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+        globalTool.updateQuerystring({ queryString: newQueryString });
+        window.location.reload();
+      });
+  });
+}
+
+$(() => {
+  handleName();
+
+  handleEmailVerificationForm();
 });

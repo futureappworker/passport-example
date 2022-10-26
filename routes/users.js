@@ -6,6 +6,8 @@ const { authenticateMiddleware } = require('../middleware');
 const {
   updateName,
   getUserListAndPageInfo,
+  sendEmailVerificationForEmail,
+  confirmEmail,
 } = require('../tools/users');
 
 const router = express.Router();
@@ -161,6 +163,116 @@ router.post('/api/users/:id/updateName', authenticateMiddleware, async (req, res
   res.status(200).json({
     message: 'Update name suceesfully.',
     userId: req.user.id,
+  });
+});
+
+router.post('/api/users/sendEmailVerificationForEmail', authenticateMiddleware, async (req, res) => {
+  /*
+    #swagger.summary = 'Send email verification for email.'
+
+    #swagger.description = 'Send email verification for email.'
+
+    #swagger.parameters['Authorization'] = {
+      in: 'header',
+      description: 'Example: Bearer xxxxxx',
+      required: 'true',
+      schema: {
+        Authorization: 'Bearer ',
+      },
+    }
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Body',
+      required: true,
+      schema: {
+        email: 'aaa@gmail.com',
+      },
+    }
+
+    #swagger.responses[200] = {
+      description: 'Send email verification successfully.',
+      schema: {
+        message: 'Send email verification suceesfully.',
+        email: 'aaa@gmail.com',
+      },
+    }
+  */
+
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      message: 'Email is required.',
+    });
+  }
+
+  if (!req.user) {
+    return res.status(403).json({
+      message: 'Forbidden.',
+    });
+  }
+
+  try {
+    await sendEmailVerificationForEmail({
+      userId: req.user.id,
+      email,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      message: err.message,
+    });
+  }
+
+  res.status(200).json({
+    message: 'Send email verification suceesfully.',
+    email,
+  });
+});
+
+router.post('/api/users/confirmEmail', async (req, res) => {
+  /*
+    #swagger.summary = 'Confirm email.'
+
+    #swagger.description = 'Confirm email.'
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Body',
+      required: true,
+      schema: {
+        token: 'xxxxx',
+      },
+    }
+
+    #swagger.responses[200] = {
+      description: 'User has been already verified.',
+      schema: {
+        message: 'User has been already verified.',
+      },
+    }
+  */
+
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({
+      message: 'Bad Request.',
+    });
+  }
+
+  try {
+    await confirmEmail({
+      token,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      message: err.message,
+    });
+  }
+
+  res.status(200).json({
+    message: 'User has been already verified.',
   });
 });
 

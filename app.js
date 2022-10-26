@@ -28,6 +28,9 @@ app.set('view engine', 'ejs');
 // parse application/json
 app.use(bodyParser.json());
 
+// parser application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

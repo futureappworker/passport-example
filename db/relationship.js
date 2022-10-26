@@ -3,6 +3,7 @@ const {
   Profile,
   Provider,
   Session,
+  EmailVerificationToken,
 } = require('.');
 
 const setup = () => {
@@ -17,6 +18,10 @@ const setup = () => {
   // User and Session, One-To-Many relationship
   User.hasMany(Session);
   Session.belongsTo(User);
+
+  // User and EmailVerificationToken, One-To-One relationship
+  User.EmailVerificationToken = User.hasOne(EmailVerificationToken);
+  EmailVerificationToken.User = EmailVerificationToken.belongsTo(User);
 };
 
 module.exports = {

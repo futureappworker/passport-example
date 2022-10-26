@@ -38,4 +38,11 @@ router.get('/profile/:id', parseUserMiddleware, async (req, res) => {
   });
 });
 
+router.get('/confirmEmail', (req, res) => {
+  res.render('confirmEmail', {
+    appName: process.env.APP_NAME,
+    title: 'Confirm Email',
+  });
+});
+
 module.exports = router;

@@ -8,7 +8,7 @@
     "validate": true,
     "axios": true,
     "bootstrap": true,
-    "toastMessage": true,
+    "globalTool": true,
     "moment": true,
     "_": true
   },

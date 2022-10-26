@@ -364,6 +364,74 @@
         }
       }
     },
+    "/api/users/sendEmailVerificationForEmail": {
+      "post": {
+        "summary": "Send email verification for email.",
+        "description": "Send email verification for email.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Example: Bearer xxxxxx",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "example": "Bearer "
+                }
+              }
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "aaa@gmail.com"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Send email verification successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Send email verification suceesfully."
+                },
+                "email": {
+                  "type": "string",
+                  "example": "aaa@gmail.com"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/api/site/getUserStatistics": {
       "get": {
         "summary": "Get user statistics",

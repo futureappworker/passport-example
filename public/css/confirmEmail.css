@@ -1,0 +1,14 @@
+main {
+  padding: 50px 74px;
+}
+
+.box {
+  padding: 60px 30px;
+  border: 1px solid rgb(233, 236, 239);
+  border-radius: 2px;
+  text-align: center;
+}
+
+.success-box svg {
+  color: #198754;
+}

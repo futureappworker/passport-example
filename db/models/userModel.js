@@ -30,6 +30,9 @@ class User extends Model {
       }, {
         association: User.Provider,
         attributes: ['providerId', 'providerType', 'name'],
+      }, {
+        association: User.EmailVerificationToken,
+        attributes: ['type', 'verificationToken', 'expireAt'],
       }],
     });
     return user;

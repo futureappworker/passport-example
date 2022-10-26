@@ -1,43 +1,3 @@
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
-function getParsedQueryString() {
-  const parsedQueryString = {};
-  let hashes = {};
-  if (/[?]/g.test(window.location.href)) {
-    hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (let i = 0; i < hashes.length; i += 1) {
-      if (/[=]/g.test(hashes[i])) {
-        const [key, value] = hashes[i].split('=');
-        parsedQueryString[key] = value;
-      }
-    }
-  }
-  return parsedQueryString;
-}
-
-function stringifyQuerystring({ parsedQueryString = {} } = {}) {
-  const keyValuePairs = [];
-  Object.keys(parsedQueryString).forEach((prop) => {
-    const key = prop;
-    const value = parsedQueryString[prop];
-    keyValuePairs.push(`${key}=${value}`);
-  });
-  if (keyValuePairs.length === 0) {
-    return '';
-  }
-  return keyValuePairs.join('&');
-}
-
-function updateQuerystring({ queryString = '' } = {}) {
-  const pageUrl = `?${queryString}`;
-  window.history.pushState('', '', pageUrl);
-}
-
 function renderUserStatistics({ userStatistics }) {
   const {
     userTotal,
@@ -67,7 +27,7 @@ function renderUserStatistics({ userStatistics }) {
 }
 
 function getUserStatistics() {
-  const token = getCookie('token');
+  const token = globalTool.getCookie('token');
   if (token) {
     const params = {
       todayStart: moment().startOf('day').valueOf(),
@@ -131,9 +91,9 @@ function renderUserListPagination(payload) {
   const pageTotal = Math.ceil(dataTotal / perPage);
 
   if (page > pageTotal) {
-    let parsedQueryString = getParsedQueryString();
+    let parsedQueryString = globalTool.getParsedQueryString();
     parsedQueryString = { ...parsedQueryString, page: pageTotal };
-    const newQueryString = stringifyQuerystring({ parsedQueryString });
+    const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
     document.location.href = `/dashboard?${newQueryString}`;
     return;
   }
@@ -224,8 +184,8 @@ function renderUserListPagination(payload) {
 }
 
 function getUserList() {
-  const token = getCookie('token');
-  let parsedQueryString = getParsedQueryString();
+  const token = globalTool.getCookie('token');
+  let parsedQueryString = globalTool.getParsedQueryString();
   let { page, perPage } = parsedQueryString;
   if (page === undefined) {
     page = 1;
@@ -239,15 +199,15 @@ function getUserList() {
     page = 1;
     perPage = 10;
     parsedQueryString = { ...parsedQueryString, page, perPage };
-    const newQueryString = stringifyQuerystring({ parsedQueryString });
-    updateQuerystring({ queryString: newQueryString });
+    const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+    globalTool.updateQuerystring({ queryString: newQueryString });
   }
   if (page <= 0 || perPage <= -1) {
     page = 1;
     perPage = 10;
     parsedQueryString = { ...parsedQueryString, page, perPage };
-    const newQueryString = stringifyQuerystring({ parsedQueryString });
-    updateQuerystring({ queryString: newQueryString });
+    const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+    globalTool.updateQuerystring({ queryString: newQueryString });
   }
 
   const params = {
@@ -282,14 +242,14 @@ function handleUserListPaginationClick() {
   const $userListPagination = $('#userListPagination');
 
   const changePageQuery = ({ page }) => {
-    let parsedQueryString = getParsedQueryString();
+    let parsedQueryString = globalTool.getParsedQueryString();
     parsedQueryString = { ...parsedQueryString, page };
-    const newQueryString = stringifyQuerystring({ parsedQueryString });
-    updateQuerystring({ queryString: newQueryString });
+    const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+    globalTool.updateQuerystring({ queryString: newQueryString });
   };
 
   $userListPagination.on('click', '.previous-btn', () => {
-    const parsedQueryString = getParsedQueryString();
+    const parsedQueryString = globalTool.getParsedQueryString();
     const page = parseInt(parsedQueryString.page, 10);
     changePageQuery({
       page: page - 1,
@@ -299,7 +259,7 @@ function handleUserListPaginationClick() {
   });
 
   $userListPagination.on('click', '.next-btn', () => {
-    const parsedQueryString = getParsedQueryString();
+    const parsedQueryString = globalTool.getParsedQueryString();
     const page = parseInt(parsedQueryString.page, 10) || 1;
     changePageQuery({
       page: page + 1,
@@ -319,20 +279,20 @@ function handleUserListPaginationClick() {
 
   $userListPagination.on('keyup', '.pagination-input-btn input', (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {
-      let parsedQueryString = getParsedQueryString();
+      let parsedQueryString = globalTool.getParsedQueryString();
       let page = parseInt($(e.target).val(), 10);
 
       if (_.isNaN(page)) {
         page = 1;
         parsedQueryString = { ...parsedQueryString, page };
-        const newQueryString = stringifyQuerystring({ parsedQueryString });
-        updateQuerystring({ queryString: newQueryString });
+        const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+        globalTool.updateQuerystring({ queryString: newQueryString });
       }
       if (page <= 0) {
         page = 1;
         parsedQueryString = { ...parsedQueryString, page };
-        const newQueryString = stringifyQuerystring({ parsedQueryString });
-        updateQuerystring({ queryString: newQueryString });
+        const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+        globalTool.updateQuerystring({ queryString: newQueryString });
       }
       changePageQuery({
         page,
@@ -343,9 +303,43 @@ function handleUserListPaginationClick() {
   });
 }
 
+function handleEmailVerificationForm() {
+  const $emailVerificationForm = $('#emailVerificationForm');
+  $emailVerificationForm.submit((e) => {
+    e.preventDefault();
+
+    const token = globalTool.getCookie('token');
+    const email = $emailVerificationForm.find('input[name="email"]').val();
+
+    axios.post('/api/users/sendEmailVerificationForEmail', { email }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        globalTool.openSuccessModal({
+          title: 'Send Email Verification',
+          message: `
+            ${response.data.message}
+            <br />
+            Please go to the mailbox to receive.
+          `,
+        });
+      }, (err) => {
+        let parsedQueryString = globalTool.getParsedQueryString();
+        parsedQueryString = { ...parsedQueryString, 'alert-message': err.response.data.message };
+        const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+        globalTool.updateQuerystring({ queryString: newQueryString });
+        window.location.reload();
+      });
+  });
+}
+
 $(() => {
   getUserStatistics();
 
   handleUserListPaginationClick();
   getUserList();
+
+  handleEmailVerificationForm();
 });

@@ -186,7 +186,7 @@ function signUp({ email, password }) {
       window.location.href = '/dashboard';
     })
     .catch((error) => {
-      let message = 'There was a problem with your login.';
+      let message = 'There was a problem with your sign up.';
       if (error.response.data.message) {
         message = error.response.data.message;
       }

@@ -138,6 +138,21 @@ class User extends Model {
     const total = await User.count();
     return total;
   }
+
+  static async resetPasswordById({ id = '', password = '' } = {}) {
+    if (!id || !password) {
+      return;
+    }
+    await User.update({
+      hashedPassword: password,
+    }, {
+      where: {
+        id,
+      },
+    });
+    const user = await User.findOneById({ id });
+    return user;
+  }
 }
 
 User.init({

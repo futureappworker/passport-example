@@ -8,6 +8,7 @@ const {
   getUserListAndPageInfo,
   sendEmailVerificationForEmail,
   confirmEmail,
+  resetPassword,
 } = require('../tools/users');
 
 const router = express.Router();
@@ -109,7 +110,7 @@ router.get('/api/users', authenticateMiddleware, async (req, res) => {
 
 router.post('/api/users/:id/updateName', authenticateMiddleware, async (req, res) => {
   /*
-    #swagger.summary = "Update user's name"
+    #swagger.summary = 'Update user's name'
 
     #swagger.description = 'Update name, only your own name can be updated'
 
@@ -162,6 +163,74 @@ router.post('/api/users/:id/updateName', authenticateMiddleware, async (req, res
 
   res.status(200).json({
     message: 'Update name suceesfully.',
+    userId: req.user.id,
+  });
+});
+
+router.post('/api/users/:id/resetPassword', authenticateMiddleware, async (req, res) => {
+  /*
+    #swagger.summary = 'Reset password'
+
+    #swagger.description = 'Reset password, only your own password can be reseted'
+
+    #swagger.parameters['Authorization'] = {
+      in: 'header',
+      description: 'Example: Bearer xxxxxx',
+      required: 'true',
+      schema: {
+        Authorization: 'Bearer ',
+      },
+    }
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Body',
+      required: true,
+      schema: {
+        oldPassword: 'qwerQWER1@',
+        newPassword: 'qwerQWER1@aaa',
+      },
+    }
+
+    #swagger.responses[200] = {
+      description: 'Reset password successfully.',
+      schema: {
+        message: 'Reset password suceesfully.',
+        userId: 1,
+      },
+    }
+  */
+
+  const paramsId = parseInt(req.params.id, 10);
+  const { oldPassword, newPassword } = req.body;
+
+  if (!req.user) {
+    return res.status(403).json({
+      message: 'Forbidden.',
+    });
+  }
+
+  if (paramsId !== req.user.id) {
+    return res.status(403).json({
+      message: 'Forbidden.',
+    });
+  }
+
+  try {
+    await resetPassword({
+      id: req.user.id,
+      oldPassword,
+      newPassword,
+    });
+  } catch (err) {
+    const { message } = err;
+    return res.status(400).json({
+      message: message || 'Bad Request.',
+    });
+  }
+
+  res.status(200).json({
+    message: 'Reset password successfully.',
     userId: req.user.id,
   });
 });

@@ -343,3 +343,333 @@ $(() => {
 
   handleEmailVerificationForm();
 });
+
+function validateOldPassword({ oldPassword }) {
+  let result = validate(
+    {
+      oldPassword,
+    },
+    {
+      oldPassword: {
+        presence: {
+          allowEmpty: false,
+          message: 'is required',
+        },
+        length: {
+          minimum: 8,
+          tooShort: 'contains at least %{count} characters',
+        },
+      },
+    },
+  );
+  if (!result) {
+    result = { oldPassword: [] };
+  }
+  if (!/[a-z]/g.test(oldPassword)) {
+    result.oldPassword.push('contains at least one lower character');
+  }
+  if (!/[A-Z]/g.test(oldPassword)) {
+    result.oldPassword.push('contains at least one upper character');
+  }
+  if (!/[0-9]/g.test(oldPassword)) {
+    result.oldPassword.push('contains at least one digit character');
+  }
+  if (!/[@#$%^&+=]/g.test(oldPassword)) {
+    result.oldPassword.push('contains at least one special character, e.g. @#$%^&+=');
+  }
+  if (result.oldPassword.length === 0) {
+    result = undefined;
+  }
+  return result;
+}
+
+function validateNewPassword({ newPassword }) {
+  let result = validate(
+    {
+      newPassword,
+    },
+    {
+      newPassword: {
+        presence: {
+          allowEmpty: false,
+          message: 'is required',
+        },
+        length: {
+          minimum: 8,
+          tooShort: 'contains at least %{count} characters',
+        },
+      },
+    },
+  );
+  if (!result) {
+    result = { newPassword: [] };
+  }
+  if (!/[a-z]/g.test(newPassword)) {
+    result.newPassword.push('contains at least one lower character');
+  }
+  if (!/[A-Z]/g.test(newPassword)) {
+    result.newPassword.push('contains at least one upper character');
+  }
+  if (!/[0-9]/g.test(newPassword)) {
+    result.newPassword.push('contains at least one digit character');
+  }
+  if (!/[@#$%^&+=]/g.test(newPassword)) {
+    result.newPassword.push('contains at least one special character, e.g. @#$%^&+=');
+  }
+  if (result.newPassword.length === 0) {
+    result = undefined;
+  }
+  return result;
+}
+
+function validateRetypeNewPassword({ newPassword, retypeNewPassword }) {
+  let result = validate(
+    {
+      retypeNewPassword,
+    },
+    {
+      retypeNewPassword: {
+        presence: {
+          allowEmpty: false,
+          message: 'is required',
+        },
+      },
+    },
+  );
+  if (!result) {
+    result = { retypeNewPassword: [] };
+  }
+  if (retypeNewPassword !== newPassword) {
+    result.retypeNewPassword.push('Passwords are not same new password.');
+  }
+  if (result.retypeNewPassword.length === 0) {
+    result = undefined;
+  }
+  return result;
+}
+
+function handleInput() {
+  const $oldPassword = $('#oldPassword');
+  $oldPassword.on('input', () => {
+    const text = $oldPassword.val();
+    const result = validateOldPassword({ oldPassword: text });
+    const $invalidFeedback = $oldPassword.next('.invalid-feedback');
+    if (!result) {
+      $oldPassword.addClass('is-valid');
+      $oldPassword.removeClass('is-invalid');
+    }
+    if (result) {
+      let errorString = '';
+      for (let i = 0; i < result.oldPassword.length; i += 1) {
+        errorString += `<li>${result.oldPassword[i]}</li>`;
+      }
+      $invalidFeedback.html(`<ul>${errorString}</ul>`);
+      $oldPassword.addClass('is-invalid');
+      $oldPassword.removeClass('is-valid');
+    }
+  });
+
+  const $newPassword = $('#newPassword');
+  $newPassword.on('input', () => {
+    const text = $newPassword.val();
+    const result = validateNewPassword({ newPassword: text });
+    const $invalidFeedback = $newPassword.next('.invalid-feedback');
+    if (!result) {
+      $newPassword.addClass('is-valid');
+      $newPassword.removeClass('is-invalid');
+    }
+    if (result) {
+      let errorString = '';
+      for (let i = 0; i < result.newPassword.length; i += 1) {
+        errorString += `<li>${result.newPassword[i]}</li>`;
+      }
+      $invalidFeedback.html(`<ul>${errorString}</ul>`);
+      $newPassword.addClass('is-invalid');
+      $newPassword.removeClass('is-valid');
+    }
+  });
+
+  const $retypeNewPassword = $('#retypeNewPassword');
+  $retypeNewPassword.on('input', () => {
+    const newPassword = $('#newPassword').val();
+    const text = $retypeNewPassword.val();
+    const result = validateRetypeNewPassword({ newPassword, retypeNewPassword: text });
+    const $invalidFeedback = $retypeNewPassword.next('.invalid-feedback');
+    if (!result) {
+      $retypeNewPassword.addClass('is-valid');
+      $retypeNewPassword.removeClass('is-invalid');
+    }
+    if (result) {
+      let errorString = '';
+      for (let i = 0; i < result.retypeNewPassword.length; i += 1) {
+        errorString += `<li>${result.retypeNewPassword[i]}</li>`;
+      }
+      $invalidFeedback.html(`<ul>${errorString}</ul>`);
+      $retypeNewPassword.addClass('is-invalid');
+      $retypeNewPassword.removeClass('is-valid');
+    }
+  });
+}
+
+function checkValidity() {
+  const oldPassword = $('#oldPassword').val();
+  const newPassword = $('#newPassword').val();
+  const retypeNewPassword = $('#retypeNewPassword').val();
+  if (validateOldPassword({ oldPassword })) {
+    return false;
+  }
+  if (validateNewPassword({ newPassword })) {
+    return false;
+  }
+  if (validateRetypeNewPassword({ newPassword, retypeNewPassword })) {
+    return false;
+  }
+  return true;
+}
+
+function openResetPasswordAlertMessage({ message }) {
+  const $alertMessage = $('#resetPasswordAlertMessage');
+  $alertMessage.html(`
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      ${message}
+    </div>
+  `);
+}
+
+function closeResetPasswordAlertMessage() {
+  const $alertMessage = $('#resetPasswordAlertMessage');
+  $alertMessage.html('');
+}
+
+function sendResetPassword({ oldPassword, newPassword }) {
+  const token = globalTool.getCookie('token');
+  const id = $('#userId').val();
+
+  axios.post(`/api/users/${id}/resetPassword`, {
+    oldPassword,
+    newPassword,
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      closeResetPasswordAlertMessage();
+
+      let parsedQueryString = globalTool.getParsedQueryString();
+      parsedQueryString = {
+        ...parsedQueryString,
+        'alert-message': response.data.message,
+        'alert-message-type': 'success',
+      };
+      const newQueryString = globalTool.stringifyQuerystring({ parsedQueryString });
+
+      window.location.href = `/dashboard?${newQueryString}`;
+    })
+    .catch((error) => {
+      let message = 'There was a problem with your reset password.';
+      if (error.response.data.message) {
+        message = error.response.data.message;
+      }
+      openResetPasswordAlertMessage({
+        message,
+      });
+    });
+}
+
+function handleResetPasswordFormSubmit() {
+  const forms = document.querySelectorAll('.needs-validation');
+
+  Array.prototype.slice.call(forms)
+    .forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isValidity = checkValidity();
+        if (!isValidity) {
+          form.classList.add('was-validated');
+          return;
+        }
+
+        const oldPassword = $('#oldPassword').val();
+        const newPassword = $('#newPassword').val();
+        sendResetPassword({
+          oldPassword,
+          newPassword,
+        });
+      }, false);
+    });
+}
+
+function getResetPasswordModalHTML() {
+  return `
+    <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+            <button type="button" class="close-modal-button btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation" novalidate>
+              <div id="resetPasswordAlertMessage">
+              </div>
+              <div class="d-grid gap-2 mb-3">
+                <div class="position-relative">
+                  <label for="oldPassword" class="form-label">Old password</label>
+                  <input class="form-control" id="oldPassword" type="password" aria-label="old password input" required />
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="position-relative">
+                  <label for="newPassword" class="form-label">New password</label>
+                  <input class="form-control" id="newPassword" type="password" aria-label="new password input" required />
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="position-relative">
+                  <label for="retypeNewPassword" class="form-label">Re-enter new password</label>
+                  <input class="form-control" id="retypeNewPassword" type="password" aria-label="retype new password input" required />
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="mt-4 text-end">
+                  <button type="button" class="close-modal-button btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function handleResetPassword() {
+  const $resetPasswordButton = $('.reset-password-button');
+  $resetPasswordButton.on('click', () => {
+    const resetPasswordModalHTML = getResetPasswordModalHTML();
+
+    $('body').append(resetPasswordModalHTML);
+
+    const resetPasswordModal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+    resetPasswordModal.show();
+
+    handleInput();
+    handleResetPasswordFormSubmit();
+
+    const $resetPasswordModal = $('#resetPasswordModal');
+    const $closeModalButtons = $resetPasswordModal.find('.close-modal-button');
+    $closeModalButtons.bind('click.closeEvents', () => {
+      $closeModalButtons.unbind('.closeEvents');
+      resetPasswordModal.hide();
+      $resetPasswordModal.remove();
+    });
+  });
+}
+
+$(() => {
+  handleResetPassword();
+});

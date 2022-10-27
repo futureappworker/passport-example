@@ -33,6 +33,15 @@
 <% } else { %>
   <h2 class="visually-hidden"><%=title%></h2>
 
+  <% if (user.provider.providerType === 'email') { %>
+    <h3>Reset Password</h3>
+    <div class="mb-5">
+      <a class="reset-password-button" href="javascript: void(0)">
+        Reset Password
+      </a>
+    </div>
+  <% } %>
+
   <h3>User Statistics</h3>
 
   <div class="card-group mb-5">
@@ -96,4 +105,5 @@
   </div>
 <% } %>
 
+<input type="hidden" id="userId" value="<%= user && user.id %>" />
 <% block('script', '<script src="/static/js/dashboard.js"></script>') -%>

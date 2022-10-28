@@ -22,11 +22,11 @@ APP_NAME="<app name>"
 
 GOOGLE_CLIENT_ID="<google's client id>"
 GOOGLE_CLIENT_SECRET="<google's client secret>"
-GOOGLE_CALLBACK_URL="<google's callback url>"
+GOOGLE_CALLBACK_PATHNAME="<google's callback pathname, E.g /auth/google/callback>"
 
 FACEBOOK_APP_ID="<facebook's app id>"
 FACEBOOK_APP_SECRET="<facebook's app secret>"
-FACEBOOK_CALLBACK_URL="<facebook's callback url>"
+FACEBOOK_CALLBACK_PATHNAME="<facebook's callback pathname>, E.g /auth/facebook/callback"
 
 PASSWORD_SALT_ROUNDS=<password salt rounds>
 

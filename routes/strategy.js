@@ -15,7 +15,7 @@ router.get('/auth/google', passport.authenticate('google', {
   scope: ['email', 'profile'],
 }));
 
-router.get('/auth/google/callback', passport.authenticate('google', { session: false }), async (req, res) => {
+router.get(process.env.GOOGLE_CALLBACK_PATHNAME, passport.authenticate('google', { session: false }), async (req, res) => {
   const providerId = req.user.id;
   const name = req.user.displayName;
   const email = req.user.emails[0].value;
@@ -42,7 +42,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
-router.get('/auth/facebook/callback', passport.authenticate('facebook', { authType: 'reauthenticate', scope: ['email'], session: false }), async (req, res) => {
+router.get(process.env.FACEBOOK_CALLBACK_PATHNAME, passport.authenticate('facebook', { authType: 'reauthenticate', scope: ['email'], session: false }), async (req, res) => {
   const providerId = req.user.id;
   const name = req.user.displayName;
   const email = req.user.email || '';

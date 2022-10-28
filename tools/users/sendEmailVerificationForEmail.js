@@ -3,6 +3,14 @@ const jwt = require('jsonwebtoken');
 const { User, EmailVerificationToken } = require('../../db');
 const sgMail = require('../sgMail');
 
+let domain = '';
+if (process.env.NODE_ENV === 'production') {
+  domain = process.env.APP_DOMAIN;
+}
+if (process.env.NODE_ENV === 'development') {
+  domain = `http://localhost:${process.env.SERVER_PORT}`;
+}
+
 const getEmailVerificationHTML = ({ jwtToken }) => (`
   <div style="margin: 0 auto; background: #ffffff; border: 1px solid #f0f0f0; padding: 30px; width: 600px;">
     <h2 style="margin: 0 0 30px 0; font-size: 24px; color: #294661">
@@ -16,7 +24,7 @@ const getEmailVerificationHTML = ({ jwtToken }) => (`
     <div style="text-align: center;">
       <a
         style="display: inline-block; margin: 0; padding: 12px 45px; border: solid 1px #348eda; background-color: #348eda; text-decoration: none; color: #ffffff; border-radius: 2px; font-size: 14px;"
-        href="http://localhost:3000/confirmEmail?token=${jwtToken}"
+        href="${domain}/confirmEmail?token=${jwtToken}"
         target="_blank"
       >
         Confirm Email Address

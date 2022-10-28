@@ -142,7 +142,7 @@
                         <input type="hidden" name="email" class="form-control" value="<%= profileUser.profile.email || '' %>" />
                       </div>
                     <% } else { %>
-                      <input type="email" name="email" class="form-control" placeholder="name@example.com" value="<%= profileUser.profile.email || '' %>" />
+                      <input type="email" name="email" class="form-control" placeholder="name@example.com" value="<%= profileUser.profile.email || '' %>" required />
                     <% } %>
                   <% } %>
                 </div>

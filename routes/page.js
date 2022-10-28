@@ -45,4 +45,21 @@ router.get('/confirmEmail', (req, res) => {
   });
 });
 
+router.get('/privacy', parseUserMiddleware, (req, res) => {
+  res.render('privacy', {
+    appName: process.env.APP_NAME,
+    title: 'Privacy Policy',
+    user: req.user,
+  });
+});
+
+router.get('/terms', parseUserMiddleware, (req, res) => {
+  res.render('terms', {
+    appName: process.env.APP_NAME,
+    title: 'Terms of Service',
+    user: req.user,
+    appDomain: process.env.APP_DOMAIN,
+  });
+});
+
 module.exports = router;

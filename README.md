@@ -39,6 +39,8 @@ TOKEN_EXPIRES_IN=<number, seconds>
 EMAIL_VERIFICATION_FOR_EMAIL_EXPIRES_IN=<number, email verification for email expires in, seconds>
 
 SENDGRID_API_KEY="<sendgrid api key>"
+
+APP_DOMAIN="<your app domain, E.g https://passport-example.herokuapp.com>"
 ```
 
 ## Scripts

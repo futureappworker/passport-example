@@ -13,7 +13,7 @@ router.get('/api/site/getUserStatistics', authenticateMiddleware, async (req, re
   /*
     #swagger.summary = 'Get user statistics'
 
-    #swagger.description = 'Get user statistics'
+    #swagger.description = 'Get user statistics. if user login use email, need verified user email.'
 
     #swagger.parameters['Authorization'] = {
       in: 'header',
@@ -48,6 +48,12 @@ router.get('/api/site/getUserStatistics', authenticateMiddleware, async (req, re
   if (!req.user) {
     return res.status(403).json({
       message: 'Forbidden.',
+    });
+  }
+
+  if (req.user.provider.providerType === 'email' && !req.user.profile.isEmailVerified) {
+    return res.status(403).json({
+      message: 'You have not verified your email.',
     });
   }
 

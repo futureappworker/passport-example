@@ -17,7 +17,7 @@ router.get('/api/users', authenticateMiddleware, async (req, res) => {
   /*
     #swagger.summary = 'Get user list'
 
-    #swagger.description = 'Get user list'
+    #swagger.description = 'Get user list. if user login use email, need verified user email.'
 
     #swagger.parameters['Authorization'] = {
       in: 'header',
@@ -65,6 +65,12 @@ router.get('/api/users', authenticateMiddleware, async (req, res) => {
   if (!req.user) {
     return res.status(403).json({
       message: 'Forbidden.',
+    });
+  }
+
+  if (req.user.provider.providerType === 'email' && !req.user.profile.isEmailVerified) {
+    return res.status(403).json({
+      message: 'You have not verified your email.',
     });
   }
 

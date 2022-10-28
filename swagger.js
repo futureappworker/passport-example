@@ -4,11 +4,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 let host = '';
+const schemes = [];
 if (process.env.NODE_ENV === 'production') {
   host = process.env.APP_DOMAIN;
+  schemes.push('https');
 }
 if (process.env.NODE_ENV === 'development') {
-  host = `http://localhost:${process.env.SERVER_PORT}`;
+  host = `localhost:${process.env.SERVER_PORT}`;
+  schemes.push('http');
 }
 
 const doc = {
@@ -17,7 +20,7 @@ const doc = {
     description: 'Description',
   },
   host,
-  schemes: ['http'],
+  schemes,
 };
 
 const outputFile = './swagger-output.json';

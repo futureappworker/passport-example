@@ -4,7 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 let domain = '';
 if (process.env.NODE_ENV === 'production') {
-  domain = process.env.APP_DOMAIN;
+  domain = `https://${process.env.APP_DOMAIN}`;
 }
 if (process.env.NODE_ENV === 'development') {
   domain = `http://localhost:${process.env.SERVER_PORT}`;

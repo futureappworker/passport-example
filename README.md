@@ -40,7 +40,7 @@ EMAIL_VERIFICATION_FOR_EMAIL_EXPIRES_IN=<number, email verification for email ex
 
 SENDGRID_API_KEY="<sendgrid api key>"
 
-APP_DOMAIN="<your app domain, E.g https://passport-example.herokuapp.com>"
+APP_DOMAIN="<your app domain, E.g passport-example.herokuapp.com>"
 ```
 
 ## Scripts

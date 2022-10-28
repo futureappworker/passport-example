@@ -70,7 +70,6 @@ $ npm run swagger-autogen
 ├── .eslintrc                           eslint configuration file
 ├── .env                                environment variable configuration file
 ├── swagger.js                          swagger configuration file
-├── swagger-output.json                 swagger output file
 ├── db
 │   ├── index.js                        Models centralized export
 │   ├── models                          model directory

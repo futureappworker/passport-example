@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const engine = require('ejs-locals');
 const swaggerUi = require('swagger-ui-express');
 
+// eslint-disable-next-line
 const swaggerDocument = require('./swagger-output.json');
 
 const pageRouter = require('./routes/page');

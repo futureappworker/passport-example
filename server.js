@@ -18,6 +18,6 @@ relationship.setup();
   const port = process.env.PORT || process.env.SERVER_PORT;
   app.listen(port, () => {
     // eslint-disable-next-line
-    console.log(`Listening on ${ PORT }`);
+    console.log(`Listening on ${port}`);
   });
 })();

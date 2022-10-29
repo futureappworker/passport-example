@@ -15,7 +15,7 @@ router.get('/api/site/getUserStatistics', authenticateMiddleware, async (req, re
 
     #swagger.description = 'Get user statistics. if user login use email, need verified user email.'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',

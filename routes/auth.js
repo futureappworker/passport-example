@@ -146,7 +146,7 @@ router.post('/api/auth/refreshToken', authenticateMiddleware, async (req, res) =
 
     #swagger.description = 'Refresh token'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',

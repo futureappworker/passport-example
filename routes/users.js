@@ -19,7 +19,7 @@ router.get('/api/users', authenticateMiddleware, async (req, res) => {
 
     #swagger.description = 'Get user list. if user login use email, need verified user email.'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',
@@ -120,7 +120,7 @@ router.post('/api/users/:id/updateName', authenticateMiddleware, async (req, res
 
     #swagger.description = 'Update name, only your own name can be updated'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',
@@ -179,7 +179,7 @@ router.post('/api/users/:id/resetPassword', authenticateMiddleware, async (req, 
 
     #swagger.description = 'Reset password, only your own password can be reseted'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',
@@ -253,7 +253,7 @@ router.post('/api/users/sendEmailVerificationForEmail', authenticateMiddleware, 
 
     #swagger.description = 'Send email verification for email.'
 
-    #swagger.parameters['Authorization'] = {
+    #swagger.parameters['authorization'] = {
       in: 'header',
       description: 'Example: Bearer xxxxxx',
       required: 'true',

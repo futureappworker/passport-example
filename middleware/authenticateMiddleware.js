@@ -14,7 +14,7 @@ const getHeaderToken = ({ authHeader = '' } = {}) => {
 
 const authenticateMiddleware = async (req, res, next) => {
   const headerToken = getHeaderToken({
-    authHeader: req.headers.Authorization || req.headers.authorization,
+    authHeader: req.headers.authorization,
   });
 
   try {

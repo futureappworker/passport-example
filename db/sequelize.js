@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('sqlite::memory:');
+const sequelize = new Sequelize(process.env.CLEARDB_DATABASE_URL);
 
 module.exports = sequelize;

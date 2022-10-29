@@ -41,6 +41,8 @@ EMAIL_VERIFICATION_FOR_EMAIL_EXPIRES_IN=<number, email verification for email ex
 SENDGRID_API_KEY="<sendgrid api key>"
 
 APP_DOMAIN="<your app domain, E.g passport-example.herokuapp.com>"
+
+CLEARDB_DATABASE_URL="<cleardb database url>"
 ```
 
 ## Scripts

@@ -216,6 +216,12 @@ router.post('/api/users/:id/resetPassword', authenticateMiddleware, async (req, 
     });
   }
 
+  if (req.user.provider.providerType !== 'email') {
+    return res.status(403).json({
+      message: 'Your login type is not email.',
+    });
+  }
+
   if (paramsId !== req.user.id) {
     return res.status(403).json({
       message: 'Forbidden.',

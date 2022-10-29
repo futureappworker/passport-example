@@ -6,14 +6,16 @@ const getHeaderToken = ({ authHeader = '' } = {}) => {
     return '';
   }
   const [prefixString, token] = authHeader.split(' ');
-  if (prefixString !== 'Bearer ') {
+  if (prefixString !== 'Bearer') {
     return '';
   }
   return token;
 };
 
 const authenticateMiddleware = async (req, res, next) => {
-  const headerToken = getHeaderToken({ authHeader: req.headers.Authorization });
+  const headerToken = getHeaderToken({
+    authHeader: req.headers.Authorization || req.headers.authorization,
+  });
 
   try {
     const resultToken = req.cookies.token || headerToken;

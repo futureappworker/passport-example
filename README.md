@@ -6,6 +6,7 @@
 - facebook passport
 - airbnb style eslint
 - swagger api doc
+- dashboard page has skeleton
 
 ## install
 

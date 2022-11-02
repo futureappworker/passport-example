@@ -1,4 +1,7 @@
 function renderUserStatistics({ userStatistics }) {
+  const $userStatisticsSkeleton = $('#userStatisticsSkeleton');
+  const $userStatistics = $('#userStatistics');
+
   const {
     userTotal,
     todayActiveUserTotal,
@@ -24,6 +27,9 @@ function renderUserStatistics({ userStatistics }) {
     `
   ));
   $('#lastSevenDayActiveUserAverage').html(lastSevenDayActiveUserAverageHTML);
+
+  $userStatisticsSkeleton.hide();
+  $userStatistics.show();
 }
 
 function getUserStatistics() {
@@ -50,6 +56,7 @@ function getUserStatistics() {
 }
 
 function renderUsers({ users }) {
+  const $userListTableSkeleton = $('#userListTableSkeleton');
   const $userListTable = $('#userListTable');
   const $tableBody = $userListTable.find('tbody');
   let usersTrHTML = `
@@ -80,6 +87,8 @@ function renderUsers({ users }) {
     `);
   }
   $tableBody.html(usersTrHTML);
+  $userListTableSkeleton.hide();
+  $userListTable.show();
 }
 
 function renderUserListPagination(payload) {

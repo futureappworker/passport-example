@@ -1,0 +1,66 @@
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+/* statistics skeleton */
+.statistics-skeleton .statistics-skeleton-title {
+  margin-bottom: 8px;
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  width: 5em;
+}
+
+.statistics-skeleton .statistics-skeleton-info {
+  display: inline-block;
+  vertical-align: top;
+  height: 1.2em;
+  width: 90%;
+}
+
+.statistics-skeleton .statistics-skeleton-number {
+  display: inline-block;
+  vertical-align: top;
+  height: 70px;
+  width: 50px;
+}
+
+/* table skeleton */
+
+.table-skeleton .table-skeleton-title {
+  margin-bottom: 8px;
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  width: 5em;
+}
+
+.table-skeleton .table-skeleton-th {
+  display: inline-block;
+  vertical-align: top;
+  height: 22px;
+  width: 4em;
+}
+
+.table-skeleton .table-skeleton-td {
+  display: inline-block;
+  vertical-align: top;
+  height: 22px;
+  width: 4em;
+}
+
+.table-skeleton .table-skeleton-pagination {
+  display: inline-block;
+  vertical-align: top;
+  height: 34px;
+  width: 16em;
+}

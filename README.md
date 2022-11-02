@@ -51,6 +51,9 @@ CLEARDB_DATABASE_URL="<cleardb database url>"
 // run server
 $ npm run start
 
+// run dev server
+$ npm run dev
+
 // run eslint
 $ npm run lint
 

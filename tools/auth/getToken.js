@@ -10,6 +10,7 @@ const getToken = async ({ id }) => {
   const token = jwt.sign(
     {
       id,
+      type: 'auth',
     },
     process.env.TOKEN_SECRET,
     {

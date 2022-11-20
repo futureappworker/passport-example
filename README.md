@@ -6,7 +6,8 @@
 - swagger api doc
 - dashboard page has skeleton
 
-| :----: | :----: |
+| | URL |
+| :---- | :---- |
 | Site URL | [https://passport-example.herokuapp.com](https://passport-example.herokuapp.com) |
 | API Document | [https://passport-example.herokuapp.com/api-docs](https://passport-example.herokuapp.com/api-docs) |
 
